@@ -44,6 +44,10 @@ tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 }
 
+tasks.withType(JavaExec) {
+	jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005' // start debug server on port 5005
+}
+
 // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
 // if it is present.
 // If you remove this task, sources will not be generated.
