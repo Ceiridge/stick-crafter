@@ -5,7 +5,9 @@
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [],
 	"client": [
-		"AbstractInventoryScreenMixin"
+		"AbstractInventoryScreenMixin",
+		"InventoryScreenMixin",
+		"MinecraftClientMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.fabricmc.fabric.impl.client.indigo.renderer.helper.ColorHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -47,6 +46,7 @@ public abstract class AbstractInventoryScreenMixin<T extends ScreenHandler> exte
 			new StickItemForCalc(Item.fromBlock(Blocks.DARK_OAK_PLANKS), 2), new StickItemForCalc(Item.fromBlock(Blocks.JUNGLE_PLANKS), 2),
 			new StickItemForCalc(Item.fromBlock(Blocks.OAK_PLANKS), 2), new StickItemForCalc(Item.fromBlock(Blocks.SPRUCE_PLANKS), 2),
 			new StickItemForCalc(Item.fromBlock(Blocks.WARPED_PLANKS), 2), new StickItemForCalc(Items.STICK, 1)};
+	
 	private int possibleSticks;
 	private TimeStopper calcDelay = new TimeStopper(1000); // 1s delay
 
@@ -75,6 +75,9 @@ public abstract class AbstractInventoryScreenMixin<T extends ScreenHandler> exte
 			}
 		}
 
-		this.textRenderer.drawWithShadow(matrices, "Total possible sticks: " + possibleSticks, 2, 2, 0xFFFFFFFF);
+		this.textRenderer.drawWithShadow(matrices,
+				"Total possible sticks: " + possibleSticks + " (" + (int) Math.ceil((double) possibleSticks / 64d) + " slots)", 2, 2, 0xFFFFFFFF);
+		this.textRenderer.drawWithShadow(matrices, "Total possible stick emeralds: " + (int) Math.floor((double) possibleSticks / 32d), 2,
+				this.textRenderer.getStringBoundedHeight("T", 100) + 2, 0xFFFFFFFF);
 	}
 }
