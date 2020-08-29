@@ -8,38 +8,39 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
-import net.minecraft.client.gui.screen.recipebook.RecipeResultCollection;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.recipebook.RecipeBookGroup;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Recipe;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin extends AbstractInventoryScreen<PlayerScreenHandler> implements RecipeBookProvider {
-	private Recipe<?> stickRecipe;
-	
+
 	public InventoryScreenMixin(PlayerScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
 		super(screenHandler, playerInventory, text);
 	}
 
 	@Inject(at = @At("RETURN"), method = "init")
 	private void init(CallbackInfo info) {
-		if(!this.client.interactionManager.hasCreativeInventory()) {
+		if (!this.client.interactionManager.hasCreativeInventory()) {
 			this.addButton(new ButtonWidget(2, 50, 100, 20, new LiteralText("Craft All Sticks"), (widget) -> {
-				for(RecipeResultCollection recipeCollection : this.client.player.getRecipeBook().getResultsForGroup(RecipeBookGroup.CRAFTING_MISC)) {
-					for(Recipe<?> recipe : recipeCollection.getAllRecipes()) {
-						if(recipe.getOutput().getItem().equals(Items.STICK)) {
-							this.stickRecipe = recipe;
-							break;
+				/*RecipeManager manager = this.client.world.getRecipeManager();
+
+				for (Identifier id : manager.keys().collect(Collectors.toList())) {
+					System.out.println(id.toString() + " " + id.getPath());
+					Optional<? extends Recipe<?>> recipeOp = manager.get(id);
+					if (recipeOp.isPresent()) {
+						Recipe<?> stickRecipe = recipeOp.get();
+						
+						if (stickRecipe.getOutput().getItem().equals(Items.STICK)) {
+							
 						}
 					}
-				} // This big recipe finder used to be outside of this callback function, but it works better if it's here
+				}*/
 				
-				this.client.interactionManager.clickRecipe(0, this.stickRecipe, true);
+				this.client.interactionManager.clickRecipe(this.handler.syncId, this.client.world.getRecipeManager().get(new Identifier("minecraft:stick")).get(), true);
 				StickCrafter.doQuickMove = true;
 				StickCrafter.quickMoveStopper.reset();
 			}));

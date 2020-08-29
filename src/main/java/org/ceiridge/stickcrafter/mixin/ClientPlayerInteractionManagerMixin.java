@@ -23,5 +23,6 @@ public class ClientPlayerInteractionManagerMixin {
 	private void clickSlot(int syncId, int slotId, int clickData, SlotActionType actionType, PlayerEntity player,
 			CallbackInfoReturnable<ItemStack> info) {
 		System.out.println("clickSlot: " + syncId + " " + slotId + " " + clickData + " " + actionType.name() + " " + player.getName().toString());
+//		new Throwable().printStackTrace();
 	}
 }
