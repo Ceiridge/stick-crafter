@@ -16,7 +16,7 @@
 	"license": "MIT",
 	"icon": "assets/stickcrafter/icon.png",
 
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"main": [
 			"org.ceiridge.stickcrafter.StickCrafter"
